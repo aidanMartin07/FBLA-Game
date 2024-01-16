@@ -3,6 +3,9 @@ class Overworld{
         this.element = config.element;
         this.canvas = this.element.querySelector(".game-canvas");
         this.ctx = this.canvas.getContext("2d");
+        this.ctx.webkitImageSmoothingEnabled = false;
+        this.ctx.mozImageSmoothingEnabled = false;
+        this.ctx.imageSmoothingEnabled = false;
         this.map = null;
       }
 
@@ -11,7 +14,7 @@ class Overworld{
 
             this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-            //Establish Camera person
+            // //Establish Camera person
             const cameraPerson = this.map.gameObjects.hero;
 
             //Update all objects
@@ -23,8 +26,9 @@ class Overworld{
                 })
             })
 
-            //Draw Lower Layer
-            this.map.drawLowerImage(this.ctx, cameraPerson)
+            // //Draw Lower Layer
+            // this.map.drawLowerImage(this.ctx, cameraPerson)
+            this.mapManager.renderTest(cameraPerson);
 
             //Draw Game Objects
             Object.values(this.map.gameObjects).sort((a,b) => {
@@ -33,8 +37,13 @@ class Overworld{
                 object.sprite.draw(this.ctx, cameraPerson)
             })
 
-            //Draw Upper Layer
-            this.map.drawUpperImage(this.ctx, cameraPerson)
+            //this.mapManager.renderSky(cameraPerson);
+
+
+            // //Draw Upper Layer
+            // this.map.drawUpperImage(this.ctx, cameraPerson)
+            //this.mapManager.renderMap();
+            // this.mapManager.renderMap();
 
             requestAnimationFrame(() => {
                 step();
@@ -64,8 +73,17 @@ class Overworld{
         this.map.mountObjects();
       }
 
-    init() {
-        this.startMap(window.OverworldMaps.Kitchen);
+    async init() {
+        this.mapManager = new MapManager();
+
+        this.map=new Map();
+        await this.map.initMap("forest");
+        await this.map.createCombinedTileset();
+
+        this.mapManager.setMap(this.map)
+// this.mapManager.createMapTileSet();
+
+        // this.startMap(window.OverworldMaps.Kitchen);
 
         this.bindActionInput();
         this.bindHeroPositionCheck();

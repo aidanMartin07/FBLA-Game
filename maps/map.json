@@ -1,0 +1,76 @@
+{ "compressionlevel":-1,
+ "height":5,
+ "infinite":false,
+ "layers":[
+        {
+         "data":[15, 31, 24, 6, 62,
+            23, 5, 30, 50, 50,
+            5, 15, 50, 50, 29,
+            8, 50, 50, 23, 29,
+            58, 62, 7, 24, 6],
+         "height":5,
+         "id":1,
+         "name":"Ground",
+         "opacity":1,
+         "type":"tilelayer",
+         "visible":true,
+         "width":5,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "data":[0, 0, 0, 0, 65,
+            0, 0, 0, 65, 65,
+            0, 0, 65, 65, 0,
+            0, 65, 65, 0, 0,
+            65, 65, 0, 0, 0],
+         "height":5,
+         "id":2,
+         "name":"Collision",
+         "opacity":0.22,
+         "type":"tilelayer",
+         "visible":true,
+         "width":5,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "data":[0, 0, 0, 163, 0,
+            0, 163, 0, 0, 0,
+            0, 0, 0, 0, 165,
+            0, 0, 0, 163, 0,
+            0, 0, 0, 0, 0],
+         "height":5,
+         "id":3,
+         "name":"Sky",
+         "opacity":1,
+         "type":"tilelayer",
+         "visible":true,
+         "width":5,
+         "x":0,
+         "y":0
+        }],
+ "nextlayerid":4,
+ "nextobjectid":1,
+ "orientation":"orthogonal",
+ "renderorder":"right-down",
+ "tiledversion":"1.10.2",
+ "tileheight":32,
+ "tilesets":[
+        {
+         "firstgid":1,
+         "source":"TX Tileset Grass.tsx"
+        }, 
+        {
+         "firstgid":65,
+         "source":"collision.tsx"
+        }, 
+        {
+         "firstgid":66,
+         "source":"TX Plant.tsx"
+        }],
+ "tilewidth":32,
+ "type":"map",
+ "version":"1.10",
+ "width":5
+}

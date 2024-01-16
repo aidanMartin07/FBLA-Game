@@ -32,5 +32,18 @@ const utils = {
             detail
         });
         document.dispatchEvent(event);
-    }
+    },
+
+    async loadImage(source) {
+        return new Promise((resolve, reject) => {
+          const image = new Image();
+          image.onload = function() {
+            resolve(image);
+          };
+          image.src = source;
+          image.onerror = function() {
+            reject(new Error("Failed to load image:"+source));
+          };
+        });
+      }
 }
