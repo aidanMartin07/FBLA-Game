@@ -23,6 +23,11 @@ class MapManager{
 
     async setMap(map){
         this.currentMap=map;
+        var sound = new Howl({
+            src: ['/audio/old_city_theme.ogg']
+          });
+          
+          sound.play();
     }
 
     async switchMap(){

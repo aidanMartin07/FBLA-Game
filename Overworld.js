@@ -77,8 +77,8 @@ class Overworld{
         this.mapManager = new MapManager();
 
         this.map=new Map();
-        await this.map.initMap("forest");
-        await this.map.createCombinedTileset();
+        await this.map.initMap("dungeon");
+        //await this.map.createCombinedTileset();
 
         this.mapManager.setMap(this.map)
 // this.mapManager.createMapTileSet();

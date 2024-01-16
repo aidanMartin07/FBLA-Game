@@ -33,6 +33,7 @@ class Person extends GameObject{
     }
 
     startBehavior(state, behavior){
+        console.log("HOLA")
         //set character direction to whatever behavior has
         this.direction = behavior.direction;
         if(behavior.type === "walk"){
