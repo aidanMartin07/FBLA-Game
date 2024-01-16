@@ -58,9 +58,9 @@ class Map{
     }
 
     addWall(x, y){
-        console.log("x:"+x+" y:"+y)
+        //console.log("x:"+x+" y:"+y)
         this.tileTags.data[(y*this.width)/16+x/16] = 3363;
-        console.log(this.tileTags)
+        //console.log(this.tileTags)
     }
     removeWall(x, y){
         this.tileTags.data[(y*this.width)/16+x/16] = 0;
@@ -76,7 +76,6 @@ class Map{
             for(let y = 0; y < this.height; y++) {
               for(let x = 0; x < this.width; x++) {
                 let index = layer.data[x + y * this.width];
-                //console.log(layer.name+" "+index+" "+this.getTilePosition(index).x+" "+this.getTilePosition(index).y)
                 if(index == 0) continue;
                 this.ctx.drawImage(
                   this.tileMapImage,
@@ -101,6 +100,7 @@ class Map{
                 let index = this.tileTags.data[x + y * this.width];
                 //console.log(layer.name+" "+index+" "+this.getTilePosition(index).x+" "+this.getTilePosition(index).y)
                 if(index == 0) continue;
+                //console.log("render collision")
                 this.ctx.drawImage(
                   this.tileMapImage,
                   this.getTilePosition(index).x * this.tileSize,
@@ -161,13 +161,17 @@ class Map{
     async createCombinedTileset(){
         const canvas = document.createElement('canvas');
         const ctx = canvas.getContext("2d");
+        ctx.webkitImageSmoothingEnabled = false;
+        ctx.mozImageSmoothingEnabled = false;
+        ctx.imageSmoothingEnabled = false;
         const images = [];
         let totalTiles=0;
 
         for (let i = 0; i < this.mapData.tilesets.length; i++) {
             const image = await utils.loadImage(`/maps/tilesets/${this.mapData.tilesets[i].source.replace('.tsx', '.png')}`);
             totalTiles += (image.width * image.height) / (this.mapData.tileheight * this.mapData.tilewidth);
-            this.tileMapSize = Math.ceil(Math.sqrt(totalTiles));
+            this.tileMapSize = Math.ceil(Math.sqrt(totalTiles))+1;
+            console.log(totalTiles)
             images[i] = image;
           }
 
@@ -181,13 +185,18 @@ class Map{
         let ii=0;
         for(let image in images){
           let imageFile = images[image];
+          console.log(imageFile)
           let offsetX=0;
           let offsetY=0;
           for(let y=0; y*this.tileSize<imageFile.height;y++){
             for(let x=0; x*this.tileSize<imageFile.width;x++){
               ii++;
+              //console.log(offsetX,offsetY,this.tileSize,this.tileSize,xMap*this.tileSize,yMap*this.tileSize,this.tileSize,this.tileSize)
                 ctx.drawImage(imageFile,offsetX,offsetY,this.tileSize,this.tileSize,xMap*this.tileSize,yMap*this.tileSize,this.tileSize,this.tileSize);
-                //ctx.fillText(ii, xMap*this.tileSize, yMap*this.tileSize+18);
+                ctx.font = "7px Arial";
+                ctx.fillStyle = "white";
+                //if((ii+1)%2)
+                //ctx.fillText(ii, xMap*this.tileSize, yMap*this.tileSize+7);
                 xMap++;
                 offsetX+=this.tileSize;
                 if(offsetX>=imageFile.width){
@@ -195,6 +204,7 @@ class Map{
                   offsetY+=this.tileSize;
                 }
 
+                //console.log(xMap, this.tileMapSize)
                 if(xMap>this.tileMapSize){
                   xMap=0;
                   yMap++;
