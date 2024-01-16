@@ -22,14 +22,27 @@ class Map{
     async initMap(file){
         const map = await fetch("/maps/"+file+".json");
         this.mapData = await map.json();
-        this.tileMapImage=await utils.loadImage("/maps/mapTilesets/"+file+".png")
-
         this.width=this.mapData.width;
         this.height=this.mapData.height;
         this.tileSize=this.mapData.tileheight;
+
+        try{
+          this.tileMapImage=await utils.loadImage("/maps/mapTilesets/"+file+".png");
+          this.tileMapSize=this.tileMapImage.width/this.tileSize;
+        }catch{
+          await this.createCombinedTileset();
+          this.tileMapImage = new Image();
+          this.tileMapImage.src = document.getElementById("tileset").toDataURL();
+          var link = document.createElement('a');
+          link.download = 'tileset.png';
+          link.href = document.getElementById("tileset").toDataURL();
+          link.click();
+        }
+
+
         this.mapData.layers.forEach(layer => {
             console.log(layer.name)
-            if(layer.name=="Collision")
+            if(layer.name=="collision")
             this.tileTags = layer;
             if(layer.name=="ground"){
                 this.ground = layer;
@@ -52,9 +65,11 @@ class Map{
         return { x: x, y: y };
       }
 
+      //DIVIDED BY 16 IS BECAUSE OF CHARACTER STORED INCCORECTLY WITH PIXEL AMOUNTS
       isSpaceTaken(currentX, currentY, direction){
         const {x,y} = utils.nextPosition(currentX, currentY, direction);
-        return this.tileTags[y*this.width+x]==0;
+        console.log(this.tileTags.data[y/16*this.width+x/16], y/16, x/16)
+        return this.tileTags.data[y/16*this.width+x/16];
     }
 
     addWall(x, y){
@@ -160,6 +175,7 @@ class Map{
         //requires a little cleaning
     async createCombinedTileset(){
         const canvas = document.createElement('canvas');
+        canvas.id="tileset"
         const ctx = canvas.getContext("2d");
         ctx.webkitImageSmoothingEnabled = false;
         ctx.mozImageSmoothingEnabled = false;
