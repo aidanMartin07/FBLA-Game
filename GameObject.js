@@ -17,6 +17,11 @@ class GameObject{
 
     }
 
+    setPosition(x, y){
+        this.x = utils.withGrid(x);
+        this.y = utils.withGrid(y); 
+    }
+
     mount(map){
         console.log("mounting")
         this.isMounted = true;

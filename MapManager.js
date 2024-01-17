@@ -8,6 +8,7 @@ class MapManager{
         this.ctx = this.canvas.getContext("2d");
     }
 
+
     async renderMap(cameraPerson){
         this.currentMap.renderMap(cameraPerson);
     }

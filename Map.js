@@ -14,10 +14,17 @@ class Map{
       this.gameObjects = {
           hero: new Person({
               isPlayerControlled: true,
-              x: utils.withGrid(13),
-              y: utils.withGrid(13)
+              x: utils.withGrid(1),
+              y: utils.withGrid(1)
           })}
+ 
   }
+
+  setPosition(x, y){
+    this.gameObjects.x = utils.witthGrid(x);
+    this.gameObjects.y = utils.withGrid(y);
+  }
+
 
   async initMap(file){
       const map = await fetch("/maps/"+file+".json");

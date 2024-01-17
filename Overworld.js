@@ -76,20 +76,8 @@ class Overworld{
     async init() {
         this.mapManager = new MapManager();
 
-        let mapName = "BossRoom"
-        let mapType; 
-        //map type to determine what song forest map: nature theme; battle map: battle theme; boss map: boss theme;
-        switch(mapName){
-            case "forest": mapType = "forest"; break;
-            case "Dungeon1": mapType = "dungeon"; break;
-            case "dungeon2f1": mapType = "dungeon"; break;
-            case "dungeon2f2": mapType = "dungeon"; break;
-            case "BossRoom": mapType = "boss"; break;
-            case "village": mapType = "city"; break;
-            case "city": mapType = "city"; break;
-            case "weaponstore": mapType = "city"; break;
-            case "alchemystore": mapType = "city"; break;
-        }
+        let mapName = "forest" //CHANGE THE MAP NAME HERE
+        let mapType; //map type to determine what song forest map: nature theme; battle map: battle theme; boss map: boss theme;
         
         this.map=new Map();
         await this.map.initMap(mapName);
@@ -107,6 +95,21 @@ class Overworld{
         this.directionInput.init();
         this.directionInput.direction;
         
+        switch(mapName){
+            case "forest": mapType = "forest"; this.map.gameObjects.hero.setPosition(6,22);
+            break;
+            case "Dungeon1": mapType = "dungeon"; this.map.gameObjects.hero.setPosition(29,29); break;
+            case "dungeon2f1": mapType = "dungeon"; this.map.gameObjects.hero.setPosition(4,39); break;
+            case "dungeon2f2": mapType = "dungeon"; this.map.gameObjects.hero.setPosition(30,25);break;
+            case "BossRoom": mapType = "boss"; this.map.gameObjects.hero.setPosition(16,24);break;
+            case "village": mapType = "city"; break; //village map is unused for now 
+            case "city": mapType = "city"; this.map.gameObjects.hero.setPosition(2,19);break;
+            case "weaponstore": mapType = "city"; this.map.gameObjects.hero.setPosition(2,8);break;
+            case "alchemystore": mapType = "city"; this.map.gameObjects.hero.setPosition(2,8);break;
+            case "battle": mapType = "battle"; this.map.gameObjects.hero.setPosition(1,7);break;
+        }
+
+
         let songName;
 
         switch(mapType){
@@ -114,24 +117,24 @@ class Overworld{
             case "dungeon": songName = "/audio/old_city_theme.ogg"; break;
             case "boss": songName  = "/audio/Battle in the winter.mp3"; break;
             case "city": songName = "/audio/old_city_theme.ogg"; break;
-            case "battle": songName = "/battleThemeA.mp3"; break;
+            case "battle": songName = "/audio/battle theme.mp3"; break;
             
         }
+
+        
 
         var music = new Howl({
             src: [songName],
             loop: true,
-            volume: 0.5
+            volume: 0.1
         });
         music.play();
 
         this.startGameLoop();
-
         
         // this.map.startCutscene([    
         //     {type: "changeMap", map: "DemoRoom"}
         //     {type: "textMessage", text: "GringleTorg"},
         // ])
     }
-
 }
