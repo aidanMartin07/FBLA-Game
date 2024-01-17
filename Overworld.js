@@ -76,8 +76,23 @@ class Overworld{
     async init() {
         this.mapManager = new MapManager();
 
+        let mapName = "BossRoom"
+        let mapType; 
+        //map type to determine what song forest map: nature theme; battle map: battle theme; boss map: boss theme;
+        switch(mapName){
+            case "forest": mapType = "forest"; break;
+            case "Dungeon1": mapType = "dungeon"; break;
+            case "dungeon2f1": mapType = "dungeon"; break;
+            case "dungeon2f2": mapType = "dungeon"; break;
+            case "BossRoom": mapType = "boss"; break;
+            case "village": mapType = "city"; break;
+            case "city": mapType = "city"; break;
+            case "weaponstore": mapType = "city"; break;
+            case "alchemystore": mapType = "city"; break;
+        }
+        
         this.map=new Map();
-        await this.map.initMap("dungeon");
+        await this.map.initMap(mapName);
         //await this.map.createCombinedTileset();
 
         this.mapManager.setMap(this.map)
@@ -91,6 +106,24 @@ class Overworld{
         this.directionInput = new DirectionInput();
         this.directionInput.init();
         this.directionInput.direction;
+        
+        let songName;
+
+        switch(mapType){
+            case "forest": songName = "/audio/nature sketch.wav"; break;
+            case "dungeon": songName = "/audio/old_city_theme.ogg"; break;
+            case "boss": songName  = "/audio/Battle in the winter.mp3"; break;
+            case "city": songName = "/audio/old_city_theme.ogg"; break;
+            case "battle": songName = "/battleThemeA.mp3"; break;
+            
+        }
+
+        var music = new Howl({
+            src: [songName],
+            loop: true,
+            volume: 0.5
+        });
+        music.play();
 
         this.startGameLoop();
 
