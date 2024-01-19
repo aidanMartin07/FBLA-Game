@@ -144,7 +144,7 @@ class Overworld{
         var music = new Howl({
             src: [songName],
             loop: true,
-            volume: 0.1
+            volume: 0.0
         });
         music.play();
 
@@ -156,6 +156,10 @@ class Overworld{
         })
 
         this.startGameLoop();
+
+        // this.map.startCutscene([
+        //     {type:"battle"}
+        // ])
         
         // this.map.startCutscene([    
         //     {type: "changeMap", map: "DemoRoom"}

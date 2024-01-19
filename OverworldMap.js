@@ -237,7 +237,7 @@ window.OverworldMaps = {
             boss : new Person({
                 x: utils.withGrid(16),
                 y: utils.withGrid(11),
-                src: "/images/characters/people/boss.png"
+                src: "/images/characters/people/boss.png",
             })
         },
         cutSceneSpaces: {
