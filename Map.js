@@ -26,18 +26,22 @@ class Map{
         this.height=this.mapData.height;
         this.tileSize=this.mapData.tileheight;
 
-        try{
-          this.tileMapImage=await utils.loadImage("/maps/mapTilesets/"+file+".png");
-          this.tileMapSize=this.tileMapImage.width/this.tileSize;
-        }catch{
+        // try{
+        //   console.log("HI")
+        //   this.tileMapImage=await utils.loadImage("/maps/mapTilesets/"+file+".png");
+        //   console.log(this.tileMapImage.width/this.tileSize)
+        //   this.tileMapSize=this.tileMapImage.width/this.tileSize;
+          
+        //   console.log(this.tileMapSize+" size")
+        // }catch{
           await this.createCombinedTileset();
           this.tileMapImage = new Image();
           this.tileMapImage.src = document.getElementById("tileset").toDataURL();
-          var link = document.createElement('a');
-          link.download = 'tileset.png';
-          link.href = document.getElementById("tileset").toDataURL();
-          link.click();
-        }
+          // var link = document.createElement('a');
+          // link.download = 'tileset.png';
+          // link.href = document.getElementById("tileset").toDataURL();
+          // link.click();
+       // }
 
 
         this.mapData.layers.forEach(layer => {
@@ -71,6 +75,8 @@ class Map{
         console.log(this.tileTags.data[y/16*this.width+x/16], y/16, x/16)
         return this.tileTags.data[y/16*this.width+x/16];
     }
+
+  
 
     addWall(x, y){
         //console.log("x:"+x+" y:"+y)
@@ -193,7 +199,7 @@ class Map{
 
 
 
-        canvas.width = this.tileMapSize*this.tileSize;
+        canvas.width = this.tileMapSize*this.tileSize+16;
         canvas.height = this.tileMapSize*this.tileSize;
         document.body.appendChild(canvas);
         let xMap=0;
@@ -209,10 +215,9 @@ class Map{
               ii++;
               //console.log(offsetX,offsetY,this.tileSize,this.tileSize,xMap*this.tileSize,yMap*this.tileSize,this.tileSize,this.tileSize)
                 ctx.drawImage(imageFile,offsetX,offsetY,this.tileSize,this.tileSize,xMap*this.tileSize,yMap*this.tileSize,this.tileSize,this.tileSize);
-                ctx.font = "7px Arial";
-                ctx.fillStyle = "white";
-                //if((ii+1)%2)
-                //ctx.fillText(ii, xMap*this.tileSize, yMap*this.tileSize+7);
+                // ctx.font = "7px Arial";
+                // ctx.fillStyle = "red";
+                // ctx.fillText(ii, xMap*this.tileSize, yMap*this.tileSize+7);
                 xMap++;
                 offsetX+=this.tileSize;
                 if(offsetX>=imageFile.width){
@@ -228,6 +233,12 @@ class Map{
             }
           }
         }
+
+        console.log(this.getTilePosition(60))
+        console.log(this.getTilePosition(61))
+        console.log(this.getTilePosition(74))
+        console.log(this.getTilePosition(13))
+
           
 }
 
