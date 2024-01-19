@@ -4,6 +4,7 @@ class OverworldMap{
         this.gameObjects = config.gameObjects;
         this.cutSceneSpaces = config.cutSceneSpaces || {};
         this.walls = config.walls || {};
+        this.json = config.json
 
         this.lowerImage = new Image()
         this.lowerImage.src = config.lowerSrc; //constains the floor
@@ -24,7 +25,8 @@ drawUpperImage(ctx, cameraPerson){
 
 isSpaceTaken(currentX, currentY, direction){
     const {x,y} = utils.nextPosition(currentX, currentY, direction);
-    return this.walls[`${x},${y}`] || false;
+    console.log(this.tileTags.data[y/16*this.width+x/16], y/16, x/16)
+    return this.tileTags.data[y/16*this.width+x/16];
 }
 
 mountObjects(){
@@ -88,6 +90,26 @@ moveWall(wasX, wasY, direction){
     this.addWall(x,y)
 }
 
+async initMap(file){
+    const map = await fetch("/maps/"+file+".json");
+    this.mapData = await map.json();
+    this.width=this.mapData.width;
+    this.height=this.mapData.height;
+    this.tileSize=this.mapData.tileheight;
+
+    this.mapData.layers.forEach(layer => {
+        console.log(layer.name)
+        if(layer.name=="collision")
+        this.tileTags = layer;
+        if(layer.name=="ground"){
+            this.ground = layer;
+            console.log(this.ground)
+        }
+      });
+
+
+}
+
 }
 
 
@@ -112,25 +134,33 @@ window.OverworldMaps = {
                 talking: [
                     {
                         events: [
-                            {type: "textMessage", text:"test", faceHero:"npcA"}
+                            {type: "textMessage", text:"It appears that many monsters have appeared in the wilderness and only YOU can save us pleeeeeeeeeeeease", faceHero:"npcA"}
                         ]
                     }
                 ]
             }),
         },
         cutSceneSpaces: {
-            [utils.asGridCoord(4,4)] : [
+            [utils.asGridCoord(4,3)] : [
                 {
                     events: [
                         {type: "changeMap", map: "Dungeon1"}
                     ]
                 }
+            ],
+            [utils.asGridCoord(20, 4)] : [
+                {
+                    events: [
+                        {type: "changeMap", map: "dungeon2f1"}
+                    ]
+                }
             ]
-        }
+        },
+        json: "forest"
     },
     Dungeon1 : {
-        lowerSrc: "",
-        upperSrc: "",
+        lowerSrc: "/images/maps/Dungeon1Lower.png",
+        upperSrc: "/images/maps/Dungeon1Upper.png",
         gameObjects: {
             hero: new Person({
                 isPlayerControlled: true,
@@ -140,9 +170,85 @@ window.OverworldMaps = {
             ghost: new Person({
                 x: utils.withGrid(22),
                 y: utils.withGrid(22),
-                src: "/images/characters/ghost.png"
+                src: "/images/characters/people/ghost.png"
             })
-        }
+        },
+        cutSceneSpaces: {
+            [utils.asGridCoord(30,29)] : [
+                {
+                    events: [
+                        {type: "changeMap", map: "forest"}
+                    ]
+                }
+            ],
+            [utils.asGridCoord(30,30)] : [
+                {
+                    events: [
+                        {type: "changeMap", map: "forest"}
+                    ]
+                }
+            ]
+        },
+        json: "Dungeon1"
+    },
+    dungeon2f1 : {
+        lowerSrc: "/images/maps/Dungeon2Floor1Lower.png",
+        upperSrc: "images/maps/Dungeon2Floor1Upper.png",
+        gameObjects : {
+            hero: new Person({
+                isPlayerControlled: true,
+                x: utils.withGrid(4),
+                y: utils.withGrid(39)
+            }),
+            ghost: new Person({
+                x: utils.withGrid(22),
+                y: utils.withGrid(22),
+                src: "/images/characters/people/ghost.png"
+            })
+        },
+        cutSceneSpaces : {
+            [utils.asGridCoord(3,39)] : [
+                {
+                    events: [
+                        {type: "changeMap", map: "forest"}
+                    ]
+                }
+            ],
+            [utils.asGridCoord(4,8)] : [
+                {
+                    events: [
+                        {type: "changeMap", map: "BossRoom"}
+                    ]
+                }
+            ]
+        },
+        json: "dungeon2f1"
+    },
+    BossRoom : {
+        lowerSrc: "/images/maps/BossRoomLower.png",
+        upperSrc: "/images/maps/BossRoomUpper.png",
+        gameObjects: {
+            hero : new Person({
+                isPlayerControlled: true,
+                x: utils.withGrid(16),
+                y: utils.withGrid(24)
+            }),
+            boss : new Person({
+                x: utils.withGrid(16),
+                y: utils.withGrid(11),
+                src: "/images/characters/people/boss.png"
+            })
+        },
+        cutSceneSpaces: {
+            [utils.asGridCoord(16,25)] : [
+                {
+                    events : [
+                        {type: "changeMap", map:"dungeon2f1"}
+                    ]
+                }
+            ]
+        },
+        json: "BossRoom"
     },
     DemoRoom: {
         lowerSrc: "/images/maps/DemoLower.png",
@@ -215,34 +321,6 @@ window.OverworldMaps = {
                     ]
                 }
             ]
-        }
-    },
-    Kitchen: {
-        lowerSrc: "/images/maps/KitchenLower.png",
-        upperSrc: "/images/maps/KitchenUpper.png",
-        gameObjects: {
-            hero: new Person({
-                isPlayerControlled: true,
-                x: utils.withGrid(5),
-                y: utils.withGrid(5)
-            }),
-            npcA: new Person({
-                x: utils.withGrid(9),
-                y: utils.withGrid(6),
-                src: "/images/characters/people/npc2.png"
-            }),
-            npcB: new Person({
-                x: utils.withGrid(10),
-                y: utils.withGrid(8),
-                src: "/images/characters/people/npc3.png",
-                talking: [
-                    {
-                      events: [
-                        { type: "textMessage", text: "ergle", faceHero:"npcB" },
-                      ]
-                    }
-                  ]
-            })
         }
     },
     ForestCatacombsDemo: {

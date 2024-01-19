@@ -11,6 +11,10 @@ class Overworld{
         this.exit = new Exit()
       }
 
+      
+
+    
+
       startGameLoop(){
         const step = () => {
             
@@ -30,6 +34,7 @@ class Overworld{
             // //Draw Lower Layer
             this.map.drawLowerImage(this.ctx, cameraPerson)
             // this.mapManager.renderTest(cameraPerson);
+
 
             //Draw Game Objects
             Object.values(this.map.gameObjects).sort((a,b) => {
@@ -75,6 +80,7 @@ class Overworld{
         this.map = new OverworldMap(mapConfig);
         this.map.overworld = this;
         this.map.mountObjects();
+        this.map.initMap(mapConfig.json)
       }
 
     async init() {
@@ -84,6 +90,8 @@ class Overworld{
         await this.titleScreen.init(container)
 
         this.startMap(window.OverworldMaps.forest);
+
+        
 
         // this.mapManager = new MapManager();
 
@@ -136,7 +144,7 @@ class Overworld{
         var music = new Howl({
             src: [songName],
             loop: true,
-            volume: 0.0
+            volume: 0.1
         });
         music.play();
 
