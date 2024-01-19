@@ -109,6 +109,7 @@ class Map{
 
   async renderTest(cameraPerson){
       this.mapData.layers.forEach(layer => {
+        if(layer.name=="collision") return;
           for(let y = 0; y < this.height; y++) {
             for(let x = 0; x < this.width; x++) {
               let index = layer.data[x + y * this.width];
@@ -127,7 +128,7 @@ class Map{
             }
           }
         });
-        this.renderCollision(cameraPerson);
+        //this.renderCollision(cameraPerson);
   }
 
   async renderCollision(cameraPerson){

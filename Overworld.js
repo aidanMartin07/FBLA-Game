@@ -80,8 +80,8 @@ class Overworld{
     async init() {
         const container = document.querySelector(".game-container")
 
-        // this.titleScreen = new TitleScreen()
-        // await this.titleScreen.init(container)
+        this.titleScreen = new TitleScreen()
+        await this.titleScreen.init(container)
 
         this.mapManager = new MapManager();
 
