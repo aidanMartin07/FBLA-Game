@@ -134,7 +134,8 @@ window.OverworldMaps = {
                 talking: [
                     {
                         events: [
-                            {type: "textMessage", text:"It appears that many monsters have appeared in the wilderness and only YOU can save us pleeeeeeeeeeeease", faceHero:"npcA"}
+                            {type: "textMessage", text:"It appears that many monsters have appeared in the wilderness and only YOU can save us",
+                            faceHero:"npcA"}
                         ]
                     }
                 ]
@@ -169,8 +170,8 @@ window.OverworldMaps = {
             }),
             ghost: new Person({
                 x: utils.withGrid(22),
-                y: utils.withGrid(22),
-                src: "/images/characters/people/ghost.png"
+                y: utils.withGrid(25),
+                src: "/images/characters/people/ghost.png",
             })
         },
         cutSceneSpaces: {
