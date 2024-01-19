@@ -7,16 +7,17 @@ class Overworld{
         this.ctx.mozImageSmoothingEnabled = false;
         this.ctx.imageSmoothingEnabled = false;
         this.map = null;
+
+        this.exit = new Exit()
       }
 
       startGameLoop(){
         const step = () => {
-
+            
             this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
             // //Establish Camera person
             const cameraPerson = this.map.gameObjects.hero;
-
             //Update all objects
             Object.values(this.map.gameObjects).forEach(object => {
                 object.update({
@@ -44,6 +45,9 @@ class Overworld{
             // this.map.drawUpperImage(this.ctx, cameraPerson)
             //this.mapManager.renderMap();
             // this.mapManager.renderMap();
+
+            
+
 
             requestAnimationFrame(() => {
                 step();
@@ -74,6 +78,11 @@ class Overworld{
       }
 
     async init() {
+        const container = document.querySelector(".game-container")
+
+        // this.titleScreen = new TitleScreen()
+        // await this.titleScreen.init(container)
+
         this.mapManager = new MapManager();
 
         let mapName = "forest" //CHANGE THE MAP NAME HERE
@@ -97,6 +106,7 @@ class Overworld{
         
         switch(mapName){
             case "forest": mapType = "forest"; this.map.gameObjects.hero.setPosition(6,22);
+
             break;
             case "Dungeon1": mapType = "dungeon"; this.map.gameObjects.hero.setPosition(29,29); break;
             case "dungeon2f1": mapType = "dungeon"; this.map.gameObjects.hero.setPosition(4,39); break;
@@ -121,14 +131,19 @@ class Overworld{
             
         }
 
-        
-
         var music = new Howl({
             src: [songName],
             loop: true,
-            volume: 0.1
+            volume: 0.0
         });
         music.play();
+
+        addEventListener("keyup", e=> { //display button to exit the game
+            if(e.code === "Escape"){
+                this.exit.display(this.ctx);
+                console.log(this.exit)
+            }
+        })
 
         this.startGameLoop();
         

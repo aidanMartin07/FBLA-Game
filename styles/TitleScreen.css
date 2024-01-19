@@ -1,0 +1,22 @@
+.TitleScreen {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-color: black;
+}
+
+.TitleScreen_logo {
+    display: black;
+    margin: 0 auto;
+    width: 128px;
+    image-rendering: pixelated;
+}
+
+.TitleScreen button{
+    color: white;
+    justify-content: center;
+    padding: 0;
+}
+

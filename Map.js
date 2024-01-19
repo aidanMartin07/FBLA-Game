@@ -76,6 +76,10 @@ class Map{
       return { x: x, y: y };
     }
 
+    getPlayerPosition(){
+      
+    }
+
     //DIVIDED BY 16 IS BECAUSE OF CHARACTER STORED INCCORECTLY WITH PIXEL AMOUNTS
     isSpaceTaken(currentX, currentY, direction){
       const {x,y} = utils.nextPosition(currentX, currentY, direction);
