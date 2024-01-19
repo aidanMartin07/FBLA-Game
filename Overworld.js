@@ -28,8 +28,8 @@ class Overworld{
             })
 
             // //Draw Lower Layer
-            // this.map.drawLowerImage(this.ctx, cameraPerson)
-            this.mapManager.renderTest(cameraPerson);
+            this.map.drawLowerImage(this.ctx, cameraPerson)
+            // this.mapManager.renderTest(cameraPerson);
 
             //Draw Game Objects
             Object.values(this.map.gameObjects).sort((a,b) => {
@@ -42,7 +42,7 @@ class Overworld{
 
 
             // //Draw Upper Layer
-            // this.map.drawUpperImage(this.ctx, cameraPerson)
+            this.map.drawUpperImage(this.ctx, cameraPerson)
             //this.mapManager.renderMap();
             // this.mapManager.renderMap();
 
@@ -83,16 +83,18 @@ class Overworld{
         this.titleScreen = new TitleScreen()
         await this.titleScreen.init(container)
 
-        this.mapManager = new MapManager();
+        this.startMap(window.OverworldMaps.forest);
+
+        // this.mapManager = new MapManager();
 
         let mapName = "forest" //CHANGE THE MAP NAME HERE
         let mapType; //map type to determine what song forest map: nature theme; battle map: battle theme; boss map: boss theme;
         
-        this.map=new Map();
-        await this.map.initMap(mapName);
+        // this.map=new Map();
+        // await this.map.initMap(mapName);
         //await this.map.createCombinedTileset();
 
-        this.mapManager.setMap(this.map)
+        // this.mapManager.setMap(this.map)
 // this.mapManager.createMapTileSet();
 
         // this.startMap(window.OverworldMaps.Kitchen);

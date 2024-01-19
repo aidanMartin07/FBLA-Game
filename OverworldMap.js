@@ -92,6 +92,58 @@ moveWall(wasX, wasY, direction){
 
 
 window.OverworldMaps = {
+    forest : {
+        lowerSrc: "/images/maps/Forest1Lower.png",
+        upperSrc: "/images/maps/Forest1Upper.png",
+        gameObjects: {
+            hero: new Person({
+                isPlayerControlled: true,
+                x: utils.withGrid(6),
+                y: utils.withGrid(22)
+            }),
+            npcA: new Person({
+                x: utils.withGrid(7),
+                y: utils.withGrid(20),
+                src: "/images/characters/people/alchemist.png",
+                behaviorLoop: [
+                    {type: "stand", direction: "left", time: 1500},
+                    {type: "stand", direction: "up", time:1500},
+                ],
+                talking: [
+                    {
+                        events: [
+                            {type: "textMessage", text:"test", faceHero:"npcA"}
+                        ]
+                    }
+                ]
+            }),
+        },
+        cutSceneSpaces: {
+            [utils.asGridCoord(4,4)] : [
+                {
+                    events: [
+                        {type: "changeMap", map: "Dungeon1"}
+                    ]
+                }
+            ]
+        }
+    },
+    Dungeon1 : {
+        lowerSrc: "",
+        upperSrc: "",
+        gameObjects: {
+            hero: new Person({
+                isPlayerControlled: true,
+                x: utils.withGrid(29),
+                y: utils.withGrid(29)
+            }),
+            ghost: new Person({
+                x: utils.withGrid(22),
+                y: utils.withGrid(22),
+                src: "/images/characters/ghost.png"
+            })
+        }
+    },
     DemoRoom: {
         lowerSrc: "/images/maps/DemoLower.png",
         upperSrc: "/images/maps/DemoUpper.png",
