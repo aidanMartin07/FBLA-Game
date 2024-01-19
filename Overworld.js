@@ -7,16 +7,17 @@ class Overworld{
         this.ctx.mozImageSmoothingEnabled = false;
         this.ctx.imageSmoothingEnabled = false;
         this.map = null;
+
+        this.exit = new Exit()
       }
 
       startGameLoop(){
         const step = () => {
-
+            
             this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
             // //Establish Camera person
             const cameraPerson = this.map.gameObjects.hero;
-
             //Update all objects
             Object.values(this.map.gameObjects).forEach(object => {
                 object.update({
@@ -44,6 +45,9 @@ class Overworld{
             // this.map.drawUpperImage(this.ctx, cameraPerson)
             //this.mapManager.renderMap();
             // this.mapManager.renderMap();
+
+            
+
 
             requestAnimationFrame(() => {
                 step();
@@ -74,10 +78,18 @@ class Overworld{
       }
 
     async init() {
+        const container = document.querySelector(".game-container")
+
+        // this.titleScreen = new TitleScreen()
+        // await this.titleScreen.init(container)
+
         this.mapManager = new MapManager();
 
+        let mapName = "forest" //CHANGE THE MAP NAME HERE
+        let mapType; //map type to determine what song forest map: nature theme; battle map: battle theme; boss map: boss theme;
+        
         this.map=new Map();
-        await this.map.initMap("forest");
+        await this.map.initMap(mapName);
         //await this.map.createCombinedTileset();
 
         this.mapManager.setMap(this.map)
@@ -91,14 +103,53 @@ class Overworld{
         this.directionInput = new DirectionInput();
         this.directionInput.init();
         this.directionInput.direction;
+        
+        switch(mapName){
+            case "forest": mapType = "forest"; this.map.gameObjects.hero.setPosition(6,22);
+
+            break;
+            case "Dungeon1": mapType = "dungeon"; this.map.gameObjects.hero.setPosition(29,29); break;
+            case "dungeon2f1": mapType = "dungeon"; this.map.gameObjects.hero.setPosition(4,39); break;
+            case "dungeon2f2": mapType = "dungeon"; this.map.gameObjects.hero.setPosition(30,25);break;
+            case "BossRoom": mapType = "boss"; this.map.gameObjects.hero.setPosition(16,24);break;
+            case "village": mapType = "city"; break; //village map is unused for now 
+            case "city": mapType = "city"; this.map.gameObjects.hero.setPosition(2,19);break;
+            case "weaponstore": mapType = "city"; this.map.gameObjects.hero.setPosition(2,8);break;
+            case "alchemystore": mapType = "city"; this.map.gameObjects.hero.setPosition(2,8);break;
+            case "battle": mapType = "battle"; this.map.gameObjects.hero.setPosition(1,7);break;
+        }
+
+
+        let songName;
+
+        switch(mapType){
+            case "forest": songName = "/audio/nature sketch.wav"; break;
+            case "dungeon": songName = "/audio/old_city_theme.ogg"; break;
+            case "boss": songName  = "/audio/Battle in the winter.mp3"; break;
+            case "city": songName = "/audio/old_city_theme.ogg"; break;
+            case "battle": songName = "/audio/battle theme.mp3"; break;
+            
+        }
+
+        var music = new Howl({
+            src: [songName],
+            loop: true,
+            volume: 0.0
+        });
+        music.play();
+
+        addEventListener("keyup", e=> { //display button to exit the game
+            if(e.code === "Escape"){
+                this.exit.display(this.ctx);
+                console.log(this.exit)
+            }
+        })
 
         this.startGameLoop();
-
         
         // this.map.startCutscene([    
         //     {type: "changeMap", map: "DemoRoom"}
         //     {type: "textMessage", text: "GringleTorg"},
         // ])
     }
-
 }

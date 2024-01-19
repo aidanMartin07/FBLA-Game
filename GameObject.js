@@ -7,7 +7,7 @@ class GameObject{
         this.direction = config.direction || "down";
         this.sprite = new Sprite({
             gameObject: this,
-            src: config.src || "/images/characters/people/ghost.png",
+            src: config.src || "/images/characters/people/npc7.png",
         });
 
         this.behaviorLoop = config.behaviorLoop || [];
@@ -15,6 +15,11 @@ class GameObject{
 
         this.talking = config.talking || [];
 
+    }
+
+    setPosition(x, y){
+        this.x = utils.withGrid(x);
+        this.y = utils.withGrid(y); 
     }
 
     mount(map){

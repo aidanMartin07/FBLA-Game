@@ -14,6 +14,11 @@ class Person extends GameObject{
         }
     }
 
+    setPosition(x, y){
+        this.x = utils.withGrid(x);
+        this.y = utils.withGrid(y);
+    }
+
     update(state){
         if (this.movementProgressRemaining > 0) {
             this.updatePosition();
